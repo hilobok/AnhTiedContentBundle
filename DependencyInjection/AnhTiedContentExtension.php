@@ -50,6 +50,8 @@ class AnhTiedContentExtension extends Extension implements PrependExtensionInter
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
+        $prepend = array();
+
         foreach ($config['sections'] as $section) {
             $prepend['sections'][$section] = array(
                 'routes' => array(
@@ -59,7 +61,9 @@ class AnhTiedContentExtension extends Extension implements PrependExtensionInter
             );
         }
 
-        $container->prependExtensionConfig('anh_content', $prepend);
+        if (!empty($prepend)) {
+            $container->prependExtensionConfig('anh_content', $prepend);
+        }
 
         $container->prependExtensionConfig('assetic', array(
             'bundles' => array(
