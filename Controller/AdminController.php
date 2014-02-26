@@ -19,12 +19,18 @@ class AdminController extends Controller
     }
 
     // books
-    public function listParentsAction($section, $page = 1)
+    public function listParentsAction($section, $page = 1, $limit = 10)
     {
         $sections = $this->container->getParameter('anh_tied_content.sections');
 
         $pager = $this->container->get('anh_tied_content.manager.tie')
-            ->paginateParentsInSection($section, $page, 10)
+            ->paginateParentsInSection($section, $page, $limit)
+            ->setUrl(str_replace('0', '{page}',
+                $this->generateUrl('anh_tied_content_admin_parent_list', array(
+                    'section' => $section,
+                    'page' => 0
+                ))
+            ))
         ;
 
         return $this->render('AnhTiedContentBundle:Admin:listParents.html.twig', array(
