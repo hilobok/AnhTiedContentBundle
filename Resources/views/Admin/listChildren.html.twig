@@ -1,0 +1,118 @@
+{% extends "AnhTiedContentBundle:Admin:layout.html.twig" %}
+
+{% block title 'List children' %}
+
+{% block content %}
+    <h2>
+        {{ parent.getTitle() }}
+    </h2>
+
+    {% set sections = contentSections() %}
+
+    <form action="{{ url('anh_tied_content_admin_tie_delete') }}" method="post" id="fPapers">
+        <input type="hidden" name="_redirect" value="{{ url('anh_tied_content_admin_child_list', { 'parent': parent.getId() }) }}" />
+
+        <div class="button_row">
+            <a href="{{ url('anh_tied_content_admin_child_add', { 'parent': parent.getId() }) }}">Create new</a>
+
+            {% if children %}
+                <button class="danger" type="submit">Delete</button>
+            {% endif %}
+        </div>
+
+        {% for tie in children %}
+            {% set paper = tie.getChild() %}
+            {% set section = paper.getSection() %}
+
+            <div class="list_row">
+                <div class="list_row_flags">
+                    <input type="checkbox" name="id[]" value="{{ paper.getId() }}" />
+
+                    <a href="{{ contentUrl(paper) }}"><i class="fa fa-eye"></i></a>
+
+                    {% if paper.getIsDraft() %}
+                        <i class="fa fa-pencil is-draft"></i>
+                    {% endif %}
+
+                    {% if paper.getImage() %}
+                        <i class="fa fa-picture-o has-image"></i>
+                    {% endif %}
+                </div>
+
+                <div class="list_row_content">
+                    <a href="{{ url('anh_tied_content_admin_edit', { 'tie': tie.getId() }) }}">{{ tie.getChild().getTitle() }}</a>
+                    <div>
+                        {% if sections[section].category and paper.getCategory() %}
+                            <span>Category:</span> {{ paper.getCategory().getTitle() }}
+                        {% endif %}
+
+                        {% if sections[section].publishedSince %}
+                            <span>Published since:</span> {{ paper.getPublishedSince()|date }}
+                        {% endif %}
+                    </div>
+
+                    {% if sections[section].preview %}
+                        <div class="preview">{{ paper.getPreview()|striptags[:100] ~ '...' }}</div>
+                    {% endif %}
+
+                    {% if sections[section].tags and not paper.getTags().isEmpty() %}
+                        <div class="tags">{{ taggable.listTags(paper.getTags()) }}</div>
+                    {% endif %}
+
+                    <div class="created_updated">
+                        Created at: {{ paper.getCreatedAt()|date }}
+                        &middot;
+                        Updated at: {{ paper.getUpdatedAt()|date }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </form>
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+        '@anh_pager_css'
+        '@AnhContentBundle/Resources/public/style.css'
+    %}<link rel="stylesheet" href="{{ asset_url }}" />{% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+        '@jquery_js'
+        '@anh_pager_js'
+    %}<script src="{{ asset_url }}"></script>{% endjavascripts %}
+
+    <script><!--
+        $(function() {
+            var check = function() {
+                $('#fPapers button[type="submit"]').attr('disabled', $('#fPapers input[name="id[]"]:checked').length == 0);
+            };
+
+            $('#fPapers input[name="id[]"]').click(check);
+
+            check();
+
+            $('#fPapers').submit(function(event) {
+                if(!confirm('Are you sure?')) {
+                    event.preventDefault();
+                }
+            });
+        });
+    --></script>
+{% endblock %}
+
+{% macro listTags(tags, url) %}
+    <i class="fa fa-tags"></i>
+    <ul>
+        {% for tag in tags %}
+            <li>
+                {% if url %}
+                    <a href="{{ url|replace({ '%name%': tag.getName() }) }}">{{ tag.getName() }}</a>{% if not loop.last %}, {% endif %}
+                {% else %}
+                    {{ tag.getName() }}{% if not loop.last %}, {% endif %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

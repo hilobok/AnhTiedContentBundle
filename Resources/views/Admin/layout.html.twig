@@ -1,0 +1,24 @@
+{% extends 'AnhAdminBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>
+        AnhTiedContentBundle
+        <a href="{{ url('anh_admin') }}"><i class="fa fa-level-up"></i></a>
+    </h1>
+
+    Sections:
+    {% for section in sections %}
+        <a href="{{ url('anh_tied_content_admin_parent_list', { 'section': section }) }}">{{ section }}</a>
+    {% endfor %}
+{#
+    {% if options.show_categories %}
+        &middot; <a href="{{ url('anh_content_admin_category_list') }}">Categories</a>
+    {% endif %}
+
+    {% if options.show_tags %}
+        &middot; <a href="{{ url('anh_content_admin_tag_list') }}">Tags</a>
+    {% endif %}
+#}
+
+    {% block content '' %}
+{% endblock %}

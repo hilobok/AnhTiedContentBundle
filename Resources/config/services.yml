@@ -1,0 +1,36 @@
+parameters:
+    anh_tied_content.manager.tie.class: Anh\TiedContentBundle\Entity\PaperTieManager
+    anh_tied_content.entity.tie.class: Anh\TiedContentBundle\Entity\PaperTie
+    anh_tied_content.url_generator.listener.class: Anh\TiedContentBundle\EventListener\UrlGenerator
+    anh_tied_content.tie.remove_listener.class: Anh\TiedContentBundle\EventListener\TieListener
+
+services:
+    anh_tied_content.bundle:
+        class: Anh\TiedContentBundle\AnhTiedContentBundle
+        factory_service: kernel
+        factory_method: getBundle
+        arguments:
+            - 'AnhTiedContentBundle'
+        tags:
+            - { name: anh_admin.bundle }
+
+    anh_tied_content.manager.tie:
+        class: %anh_tied_content.manager.tie.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - %anh_tied_content.entity.tie.class%
+            - @anh_pager.pager
+
+    anh_tied_content.url_generator.listener:
+        class: %anh_tied_content.url_generator.listener.class%
+        arguments:
+            - @anh_tied_content.manager.tie
+        tags:
+            - { name: kernel.event_subscriber }
+
+    anh_tied_content.tie.remove_listener:
+        class: %anh_tied_content.tie.remove_listener.class%
+        arguments:
+            - @service_container
+        tags:
+            - { name: doctrine.event_subscriber }

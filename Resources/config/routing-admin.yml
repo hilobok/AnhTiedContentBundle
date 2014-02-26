@@ -1,0 +1,38 @@
+anh_tied_content_admin:
+    path: /
+    defaults: { _controller: AnhTiedContentBundle:Admin:index }
+
+anh_tied_content_admin_child_list:
+    pattern: /list-{parent}
+    defaults: { _controller: AnhTiedContentBundle:Admin:listChild }
+    requirements:
+        parent: "\d+"
+
+anh_tied_content_admin_child_add:
+    pattern: /add-{parent}
+    defaults: { _controller: AnhTiedContentBundle:Admin:addChild }
+    requirements:
+        parent: "\d+"
+
+anh_tied_content_admin_edit:
+    pattern: /edit-{tie}
+    defaults: { _controller: AnhTiedContentBundle:Admin:editTie }
+    requirements:
+        tie: "\d+"
+
+anh_tied_content_admin_parent_list:
+    pattern: /{section}-list-{page}
+    defaults: { _controller: AnhTiedContentBundle:Admin:listParents, page: 1 }
+    requirements:
+        section: "[a-z\d]+"
+        page: "\d+"
+
+anh_tied_content_admin_parent_add:
+    pattern: /{section}-add
+    defaults: { _controller: AnhTiedContentBundle:Admin:addParent }
+    requirements:
+        section: "[a-z\d]+"
+
+anh_tied_content_admin_tie_delete:
+    pattern: /delete
+    defaults: { _controller: AnhTiedContentBundle:Admin:delete }

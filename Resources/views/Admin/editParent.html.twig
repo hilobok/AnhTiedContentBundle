@@ -1,0 +1,13 @@
+{% extends "AnhTiedContentBundle:Admin:layout.html.twig" %}
+
+{% use "AnhContentBundle:Admin:paper/init-add-edit.html.twig" %}
+
+{% block title %}Edit parent in {{ section }}{% endblock %}
+
+{% block content %}
+    <h2>Edit parent in {{ section }}</h2>
+
+    {{ form(form) }}
+
+    {% include "AnhContentBundle:Admin:paper/uploader-template.html.twig" %}
+{% endblock %}

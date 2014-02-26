@@ -1,0 +1,16 @@
+{% extends "AnhTiedContentBundle:Admin:layout.html.twig" %}
+
+{% use "AnhContentBundle:Admin:paper/init-add-edit.html.twig" %}
+
+{% block title %}New child in {{ section }}{% endblock %}
+
+{% block content %}
+    <h2>
+        New child in <a href="{{ url('anh_tied_content_admin_child_list', { 'parent': parent.getId() }) }}">{{ parent.getTitle() }}</a>
+        &middot; {{ section }}
+    </h2>
+
+    {{ form(form) }}
+
+    {% include "AnhContentBundle:Admin:paper/uploader-template.html.twig" %}
+{% endblock %}

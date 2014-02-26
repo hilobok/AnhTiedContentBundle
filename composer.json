@@ -1,0 +1,33 @@
+{
+    "name": "anh/tied-content-bundle",
+    "type": "symfony-bundle",
+    "description": "Tied content bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Hilobok",
+            "email": "hilobok@gmail.com"
+        }
+    ],
+
+    "require": {
+        "anh/content-bundle": "~1.1"
+    },
+
+    "minimum-stability": "stable",
+
+    "autoload": {
+        "psr-0": {
+            "Anh\\TiedContentBundle": ""
+        }
+    },
+
+    "target-dir": "Anh/TiedContentBundle",
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+

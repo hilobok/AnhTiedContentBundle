@@ -1,0 +1,28 @@
+{% extends 'AnhContentBundle:Default:layout.html.twig' %}
+
+{% block title %}{{ child.getTitle() }}{% endblock %}
+
+{% block content %}
+    <h1>
+        <a href="{{ contentUrl(parent) }}">{{ parent.getTitle() }}</a>
+    </h1>
+    <h2>{{ child.getTitle() }}</h2>
+
+    <div class="bbcode">
+        {{ child.getContent()|raw }}
+    </div>
+
+    {% if navigation.prev %}
+        <a href="{{ contentUrl(navigation.prev) }}">&larr;</a>
+    {% else %}
+        &larr;
+    {% endif %}
+
+    <a href="{{ contentUrl(parent) }}">content</a>
+
+    {% if navigation.next %}
+        <a href="{{ contentUrl(navigation.next) }}">&rarr;</a>
+    {% else %}
+        &rarr;
+    {% endif %}
+{% endblock %}

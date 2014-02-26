@@ -1,0 +1,27 @@
+{% extends 'AnhContentBundle:Default:layout.html.twig' %}
+
+{% import 'AnhPagerBundle::macro.html.twig' as pagination %}
+
+{% block title %}{{ category.getTitle() }}{% endblock %}
+
+{% block content %}
+    <h1>{{ category.getTitle() }}</h1>
+
+    {% for tie in pager.getResult() %}
+        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' with { 'paper': tie.getChild() } %}
+    {% endfor %}
+
+    {{ pagination.build(pager) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+        '@anh_pager_css'
+    %}<link rel="stylesheet" href="{{ asset_url }}" />{% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+        '@anh_pager_js'
+    %}<script src="{{ asset_url }}"></script>{% endjavascripts %}
+{% endblock %}

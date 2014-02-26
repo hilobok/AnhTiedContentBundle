@@ -1,0 +1,9 @@
+{% extends 'AnhContentBundle:Default:layout.html.twig' %}
+
+{% block title %}Papers{% endblock %}
+
+{% block content %}
+    {% for tie in parents %}
+        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' with { 'paper': tie.getChild() } %}
+    {% endfor %}
+{% endblock %}
