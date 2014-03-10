@@ -4,6 +4,6 @@
 
 {% block content %}
     {% for tie in parents %}
-        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' with { 'paper': tie.getChild() } %}
+        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' %}
     {% endfor %}
 {% endblock %}

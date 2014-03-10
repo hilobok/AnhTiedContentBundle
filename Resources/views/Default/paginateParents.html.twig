@@ -6,7 +6,7 @@
 
 {% block content %}
     {% for tie in pager.getResult() %}
-        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' with { 'paper': tie.getChild() } %}
+        {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' %}
     {% endfor %}
 
     {{ pagination.build(pager) }}
