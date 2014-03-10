@@ -8,6 +8,10 @@
         {% if is_granted('ROLE_ADMIN') %}<a href="{{ url('anh_tied_content_admin_edit', { 'tie': tie.id }) }}">edit</a>{% endif %}
     </h1>
 
+    {% if parent.preview %}
+        <div class="bbcode">{{ parent.preview|raw }}</div>
+    {% endif %}
+
     <ul>
         {% for tie in children %}
             {% include 'AnhTiedContentBundle:Default:_blockChild.html.twig' %}
