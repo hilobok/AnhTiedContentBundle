@@ -35,11 +35,13 @@ class DefaultController extends BaseController
     {
         $parent = $this->getPaper($section, $slug);
         $children = $this->getChildren($parent);
+        $tie = $this->getTie($parent);
 
         return $this->render('AnhTiedContentBundle:Default:_viewParent.html.twig', array(
             'section' => $section,
             'parent' => $parent,
-            'children' => $children
+            'children' => $children,
+            'tie' => $tie
         ));
     }
 

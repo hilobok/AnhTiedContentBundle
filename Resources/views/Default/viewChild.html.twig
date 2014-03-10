@@ -5,9 +5,13 @@
 {% block content %}
     <h1>
         <a href="{{ contentUrl(parent) }}">{{ parent.child.title }}</a>
+        {% if is_granted('ROLE_ADMIN') %}<a href="{{ url('anh_tied_content_admin_edit', { 'tie': parent.id }) }}">edit</a>{% endif %}
     </h1>
 
-    <h2>{{ child.title() }}</h2>
+    <h2>
+        {{ child.title() }}
+        {% if is_granted('ROLE_ADMIN') %}<a href="{{ url('anh_tied_content_admin_edit', { 'tie': navigation.current.id }) }}">edit</a>{% endif %}
+    </h2>
 
     <div class="bbcode">
         {{ child.content|raw }}
