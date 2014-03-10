@@ -46,13 +46,13 @@ class DefaultController extends BaseController
     public function viewChildAction($section, $child_slug)
     {
         $child = $this->getPaper($section, $child_slug);
-        $navigation = $this->getNavigation($child);
         $tie = $this->getTie($child);
+        $navigation = $this->getNavigation($tie);
 
         return $this->render('AnhTiedContentBundle:Default:_viewChild.html.twig', array(
             'section' => $section,
             'child' => $child,
-            'parent' => $tie->getParent(),
+            'parent' => $this->getTie($tie->getParent()),
             'navigation' => $navigation
         ));
     }

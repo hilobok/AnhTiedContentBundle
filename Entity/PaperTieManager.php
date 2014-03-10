@@ -82,7 +82,8 @@ class PaperTieManager extends AbstractModelManager
     public function getTie(Paper $child)
     {
         $tie = $this->repository
-            ->findOneBy(array('child' => $child))
+            ->findTieDQL($child)
+            ->getOneOrNullResult()
         ;
 
         // search also in not yet flushed entities too (needed for url generation for new ties)
@@ -108,10 +109,8 @@ class PaperTieManager extends AbstractModelManager
         return $this->repository->findNext($tie);
     }
 
-    public function getNavigation(Paper $child)
+    public function getNavigation(PaperTie $tie)
     {
-        $tie = $this->getTie($child);
-
         return array(
             'prev' => $this->getPrev($tie),
             'next' => $this->getNext($tie),

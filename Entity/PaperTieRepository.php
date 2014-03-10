@@ -5,67 +5,92 @@ namespace Anh\TiedContentBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 use Anh\ContentBundle\Entity\Paper;
+use Anh\ContentBundle\Entity\Category;
 use Anh\TiedContentBundle\Entity\PaperTie;
 
 class PaperTieRepository extends EntityRepository
 {
     public function findParentsInSectionDQL($section)
     {
-        return $this->createQueryBuilder('t')
-            ->innerJoin('t.child', 'c')
-            ->where('t.parent is null')
-            ->andWhere('c.section = :section')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent is null')
+            ->andWhere('child.section = :section')
             ->setParameter('section', $section)
-            ->orderBy('c.publishedSince', 'DESC')
+            ->orderBy('child.publishedSince', 'DESC')
             ->getQuery()
         ;
     }
 
     public function findPublishedParentsInSectionDQL($section)
     {
-        return $this->createQueryBuilder('t')
-            ->innerJoin('t.child', 'c')
-            ->where('t.parent is null')
-            ->andWhere('c.section = :section')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent is null')
+            ->andWhere('child.section = :section')
             ->setParameter('section', $section)
-            ->andWhere('c.publishedSince <= current_timestamp()')
-            ->orderBy('c.publishedSince', 'DESC')
+            ->andWhere('child.publishedSince <= current_timestamp()')
+            ->orderBy('child.publishedSince', 'DESC')
             ->getQuery()
         ;
     }
 
-    public function findPublishedParentsInCategoryDQL($category)
+    public function findPublishedParentsInCategoryDQL(Category $category)
     {
-        return $this->createQueryBuilder('t')
-            ->innerJoin('t.child', 'c')
-            ->where('t.parent is null')
-            ->andWhere('c.category = :category')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent is null')
+            ->andWhere('child.category = :category')
             ->setParameter('category', $category)
-            ->andWhere('c.publishedSince <= current_timestamp()')
-            ->orderBy('c.publishedSince', 'DESC')
+            ->andWhere('child.publishedSince <= current_timestamp()')
+            ->orderBy('child.publishedSince', 'DESC')
             ->getQuery()
         ;
     }
 
     public function findChildrenDQL(Paper $parent)
     {
-        return $this->createQueryBuilder('t')
-            // ->innerJoin('t.child', 'c')
-            ->where('t.parent = :parent')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent = :parent')
             ->setParameter('parent', $parent)
-            ->orderBy('t.id')
+            ->orderBy('tie.id')
+            ->getQuery()
+        ;
+    }
+
+    public function findTieDQL(Paper $child)
+    {
+        return $this->createQueryBuilder('tie')
+            ->select('tie, parent, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('tie.parent', 'parent')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.child = :child')
+            ->setParameter('child', $child)
             ->getQuery()
         ;
     }
 
     public function findPrev(PaperTie $current)
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.parent = :parent')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent = :parent')
             ->setParameter('parent', $current->getParent())
-            ->andWhere('t.id < :current')
+            ->andWhere('tie.id < :current')
             ->setParameter('current', $current->getId())
-            ->orderBy('t.id', 'DESC')
+            ->orderBy('tie.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
@@ -74,12 +99,15 @@ class PaperTieRepository extends EntityRepository
 
     public function findNext(PaperTie $current)
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.parent = :parent')
+        return $this->createQueryBuilder('tie')
+            ->select('tie, child, category')
+            ->innerJoin('tie.child', 'child')
+            ->leftJoin('child.category', 'category')
+            ->where('tie.parent = :parent')
             ->setParameter('parent', $current->getParent())
-            ->andWhere('t.id > :current')
+            ->andWhere('tie.id > :current')
             ->setParameter('current', $current->getId())
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('tie.id', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
