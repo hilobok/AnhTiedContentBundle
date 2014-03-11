@@ -79,7 +79,10 @@ class AdminController extends Controller
             'hidden_fields' => array(
                 'category',
                 'publishedSince',
-                'isDraft'
+                'isDraft',
+                'metaAuthor',
+                'metaKeywords',
+                'metaDescription'
             )
         );
 
@@ -133,7 +136,10 @@ class AdminController extends Controller
                 'hidden_fields' => array(
                     'category',
                     'publishedSince',
-                    'isDraft'
+                    'isDraft',
+                    'metaAuthor',
+                    'metaKeywords',
+                    'metaDescription'
                 )
             ),
             array(
