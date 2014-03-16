@@ -1,0 +1,31 @@
+.tied-content-navigation {
+    text-align: center;
+    margin: 1em 0;
+
+    .icon-prev, .icon-next, .icon-toc {
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        font: 0/0 a;
+        margin-right: 50px;
+    }
+
+    .icon-prev.disabled, .icon-next.disabled {
+        opacity: 0.5;
+    }
+
+    .icon-prev {
+        background-image: url(/bundles/anhtiedcontent/i/prev.png);
+    }
+
+    .icon-next {
+        background-image: url(/bundles/anhtiedcontent/i/next.png);
+        margin-right: 0;
+    }
+
+    .icon-toc {
+        background-image: url(/bundles/anhtiedcontent/i/toc.png);
+    }
+}

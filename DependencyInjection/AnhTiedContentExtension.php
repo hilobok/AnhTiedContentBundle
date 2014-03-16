@@ -66,6 +66,13 @@ class AnhTiedContentExtension extends Extension implements PrependExtensionInter
         }
 
         $container->prependExtensionConfig('assetic', array(
+            'assets' => array(
+                'anh_tied_content_navigation_css' => array(
+                    'inputs' => array(
+                        '@AnhTiedContentBundle/Resources/scss/navigation.scss'
+                    ),
+                ),
+            ),
             'bundles' => array(
                 'AnhTiedContentBundle'
             )
