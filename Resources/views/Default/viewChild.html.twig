@@ -19,3 +19,9 @@
 
     {% include 'AnhTiedContentBundle:Default:_navigation.html.twig' with { section: parent.child.section } %}
 {% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+        '@anh_tied_content_navigation_css'
+    %}<link rel="stylesheet" href="{{ asset_url }}" />{% endstylesheets %}
+{% endblock %}
