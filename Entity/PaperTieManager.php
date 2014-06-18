@@ -81,9 +81,10 @@ class PaperTieManager extends AbstractModelManager
 
     public function getTie(Paper $child)
     {
-        $tie = $this->repository
+        $tie = ($child && $child->getId()) ? $this->repository
             ->findTieDQL($child)
             ->getOneOrNullResult()
+            : null
         ;
 
         // search also in not yet flushed entities too (needed for url generation for new ties)
