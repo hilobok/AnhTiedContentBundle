@@ -22,8 +22,6 @@
         }
     },
 
-    "target-dir": "Anh/TiedContentBundle",
-
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
