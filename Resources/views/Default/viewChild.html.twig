@@ -10,7 +10,7 @@
     <h2>
         {{ resource.child.title() }}
         {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ url('anh_tied_content_admin_edit', { 'section': section, 'id': resource.id }) }}">edit</a>
+            <a href="{{ url('anh_tied_content_admin_child_edit', { 'section': section, 'parent': resource.parent.id, 'id': resource.id }) }}">edit</a>
         {% endif %}
     </h2>
 
