@@ -37,7 +37,7 @@ class TieController extends ResourceController
     public function listChildrenAction(Request $request, Paper $parent)
     {
         $this->injectOptions($request, array(
-            'viewVars' => array(
+            'data' => array(
                 'parent' => $parent,
             ),
         ));
@@ -54,7 +54,7 @@ class TieController extends ResourceController
                 'child.section' => $section,
                 '[isPublished]',
             ),
-            'viewVars' => array(
+            'data' => array(
                 'section' => $section,
             ),
         );
@@ -88,7 +88,7 @@ class TieController extends ResourceController
                 'child' => $parent,
             ),
             'view' => 'AnhTiedContentBundle:Default:_viewParent.html.twig',
-            'viewVars' => array(
+            'data' => array(
                 'section' => $section,
                 'parent' => $parent,
                 'children' => $children,
@@ -107,7 +107,7 @@ class TieController extends ResourceController
                 'child.slug' => $child_slug,
             ),
             'view' => 'AnhTiedContentBundle:Default:_viewChild.html.twig',
-            'viewVars' => array(
+            'data' => array(
                 'section' => $section,
             ),
         ));
@@ -136,7 +136,7 @@ class TieController extends ResourceController
                 'child.section' => $section,
                 '[isPublished]',
             ),
-            'viewVars' => array(
+            'data' => array(
                 'section' => $section,
                 'category' => $category,
             ),

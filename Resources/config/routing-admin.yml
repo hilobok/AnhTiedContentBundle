@@ -4,7 +4,7 @@ anh_tied_content_admin:
         _controller: anh_tied_content.tie.controller:dummyAction
         _anh_resource:
             view: AnhTiedContentBundle:Admin:index.html.twig
-            viewVars:
+            data:
                 tied_sections: container.getParameter('anh_tied_content.sections')
 
 anh_tied_content_admin_child_list:
@@ -14,7 +14,7 @@ anh_tied_content_admin_child_list:
         _anh_resource:
             filter: 'container.get("anh_tied_content.filter.admin_child_list")'
             view: AnhTiedContentBundle:Admin:listChildren.html.twig
-            viewVars:
+            data:
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
                 section: request.attributes.get('section')
@@ -32,7 +32,7 @@ anh_tied_content_admin_child_add:
             form_options:
                 section: request.attributes.get('section')
             view: AnhTiedContentBundle:Admin:addChild.html.twig
-            viewVars:
+            data:
                 section: request.attributes.get('section')
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
@@ -51,7 +51,7 @@ anh_tied_content_admin_child_edit:
                 section: request.attributes.get('section')
             redirect: referer
             view: AnhTiedContentBundle:Admin:editChild.html.twig
-            viewVars:
+            data:
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
                 section: request.attributes.get('section')
@@ -70,7 +70,7 @@ anh_tied_content_admin_parent_edit:
                 section: request.attributes.get('section')
             redirect: referer
             view: AnhTiedContentBundle:Admin:editParent.html.twig
-            viewVars:
+            data:
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
                 section: request.attributes.get('section')
@@ -90,7 +90,7 @@ anh_tied_content_admin_parent_list:
                     section: 'request.attributes.get("section")'
             page: request.attributes.get('page')
             view: AnhTiedContentBundle:Admin:listParents.html.twig
-            viewVars:
+            data:
                 section: request.attributes.get('section')
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
@@ -111,7 +111,7 @@ anh_tied_content_admin_parent_add:
                 section: request.attributes.get('section')
             redirect: referer
             view: AnhTiedContentBundle:Admin:addParent.html.twig
-            viewVars:
+            data:
                 section: request.attributes.get('section')
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
