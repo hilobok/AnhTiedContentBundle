@@ -13,6 +13,7 @@ anh_tied_content_admin_child_list:
     defaults:
         _controller: anh_tied_content.tie.controller:listAction
         _anh_resource:
+            filter: 'container.get("anh_tied_content.filter.admin_child_list")'
             view: AnhTiedContentBundle:Admin:listChildren.html.twig
             viewVars:
                 tied_sections: container.getParameter('anh_tied_content.sections')
@@ -85,6 +86,10 @@ anh_tied_content_admin_parent_list:
         page: 1
         _controller: anh_tied_content.tie.controller:listAction
         _anh_resource:
+            filter:
+                instance: 'container.get("anh_tied_content.filter.admin_parent_list")'
+                parameters:
+                    section: 'request.attributes.get("section")'
             page: request.attributes.get('page')
             view: AnhTiedContentBundle:Admin:listParents.html.twig
             viewVars:

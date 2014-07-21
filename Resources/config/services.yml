@@ -4,6 +4,8 @@ parameters:
     anh_tied_content.tie.remove_listener.class: Anh\TiedContentBundle\EventListener\TieListener
     anh_tied_content.form.type.tie.class: Anh\TiedContentBundle\Form\PaperTieType
     anh_tied_content.paper_transformer.class: Anh\TiedContentBundle\Form\PaperToIdentifierTransformer
+    anh_tied_content.filter.admin_parent_list.class: Anh\TiedContentBundle\Filter\ParentFilter
+    anh_tied_content.filter.admin_child_list.class: Anh\TiedContentBundle\Filter\ChildFilter
 
 services:
     anh_tied_content.bundle:
@@ -42,3 +44,12 @@ services:
         class: %anh_tied_content.paper_transformer.class%
         arguments:
             - @anh_content.paper.repository
+
+    anh_tied_content.filter.admin_parent_list:
+        class: %anh_tied_content.filter.admin_parent_list.class%
+        arguments:
+            - %anh_content.entity.category.class%
+            - %anh_content.sections%
+
+    anh_tied_content.filter.admin_child_list:
+        class: %anh_tied_content.filter.admin_child_list.class%

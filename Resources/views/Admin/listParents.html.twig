@@ -4,8 +4,12 @@
 
 {% block title 'AnhTiedContentBundle admin area' %}
 
+{% form_theme filter 'AnhDoctrineResourceBundle:Form:filter.html.twig' %}
+
 {% block content %}
     <h2>{{ resources.getTotalCount() }} parents in {{ section }}</h2>
+
+    {{ form(filter) }}
 
     <form action="{{ url('anh_tied_content_admin_tie_delete') }}" method="post" id="fPapers">
         <div class="button_row">

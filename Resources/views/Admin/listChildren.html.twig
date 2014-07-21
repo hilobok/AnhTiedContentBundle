@@ -4,14 +4,20 @@
 
 {% block title 'List children' %}
 
+{% form_theme filter 'AnhDoctrineResourceBundle:Form:filter.html.twig' %}
+
 {% block content %}
     <h2>
         {% if resources %}
-            {{ resources.0.parent.title }}
+            <a href="{{ url('anh_tied_content_admin_child_list', { 'section': resources.0.parent.section, 'parent': resources.0.parent.id }) }}">
+                {{ resources.0.parent.title }}
+            </a>
         {% else %}
             Chapters
         {% endif %}
     </h2>
+
+    {{ form(filter) }}
 
     <form action="{{ url('anh_tied_content_admin_tie_delete') }}" method="post" id="fPapers">
         <div class="button_row">
@@ -32,10 +38,6 @@
 
                     <a href="{{ contentUrl(tie) }}"><i class="fa fa-eye"></i></a>
 
-                    {% if paper.isDraft %}
-                        <i class="fa fa-pencil is-draft"></i>
-                    {% endif %}
-
                     {% if paper.image %}
                         <i class="fa fa-picture-o has-image"></i>
                     {% endif %}
@@ -43,15 +45,6 @@
 
                 <div class="list_row_content">
                     <a href="{{ url('anh_tied_content_admin_child_edit', { 'section': section, 'parent': parent, 'id': tie.id }) }}">{{ paper.title }}</a>
-                    <div>
-                        {% if sections[section].category and paper.category %}
-                            <span>Category:</span> {{ paper.category.title }}
-                        {% endif %}
-
-                        {% if sections[section].publishedSince %}
-                            <span>Published since:</span> {{ paper.publishedSince|date }}
-                        {% endif %}
-                    </div>
 
                     <div class="preview">{{ paper.preview|striptags[:100] ~ '...' }}</div>
 
