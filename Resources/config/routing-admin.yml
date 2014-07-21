@@ -6,19 +6,17 @@ anh_tied_content_admin:
             view: AnhTiedContentBundle:Admin:index.html.twig
             viewVars:
                 tied_sections: container.getParameter('anh_tied_content.sections')
-                # sections: container.getParameter('anh_content.sections')
 
 anh_tied_content_admin_child_list:
-    pattern: /{section}-children-{parent}
+    pattern: /{section}-children-{id}
     defaults:
-        _controller: anh_tied_content.tie.controller:listAction
+        _controller: anh_tied_content.tie.controller:listChildrenAction
         _anh_resource:
             filter: 'container.get("anh_tied_content.filter.admin_child_list")'
             view: AnhTiedContentBundle:Admin:listChildren.html.twig
             viewVars:
                 tied_sections: container.getParameter('anh_tied_content.sections')
                 sections: container.getParameter('anh_content.sections')
-                parent: request.attributes.get('parent')
                 section: request.attributes.get('section')
             criteria:
                 parent: request.attributes.get('parent')

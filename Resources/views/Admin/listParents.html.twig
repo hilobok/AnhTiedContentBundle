@@ -28,7 +28,7 @@
                     <div class="list_row_flags">
                         <input type="checkbox" name="id[]" value="{{ tie.id }}" />
 
-                        <a href="{{ url('anh_tied_content_admin_child_list', { 'section': section, 'parent': paper.id }) }}"><i class="fa fa-book"></i></a>
+                        <a href="{{ url('anh_tied_content_admin_child_list', { 'section': section, 'id': paper.id }) }}"><i class="fa fa-book"></i></a>
 
                         <a href="{{ contentUrl(tie) }}"><i class="fa fa-eye"></i></a>
 

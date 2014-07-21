@@ -34,6 +34,17 @@ class TieController extends ResourceController
         return parent::updateAction($request);
     }
 
+    public function listChildrenAction(Request $request, Paper $parent)
+    {
+        $this->injectOptions($request, array(
+            'viewVars' => array(
+                'parent' => $parent,
+            ),
+        ));
+
+        return $this->listAction($request);
+    }
+
     public function listParentsAction(Request $request, $section, $page = null, $limit = null)
     {
         $options = array(

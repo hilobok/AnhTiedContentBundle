@@ -6,7 +6,7 @@
 
 {% block content %}
     <h2>
-        Edit child in <a href="{{ url('anh_tied_content_admin_child_list', { 'section': section, 'parent': resource.parent.id }) }}">{{ resource.parent.title }}</a>
+        Edit child in <a href="{{ url('anh_tied_content_admin_child_list', { 'section': section, 'id': resource.parent.id }) }}">{{ resource.parent.title }}</a>
         &middot; {{ section }}
     </h2>
 
