@@ -36,7 +36,7 @@ class PaperTie
     /**
      * @var integer
      *
-     * @ORM\OneToOne(targetEntity="Anh\ContentBundle\Entity\Paper")
+     * @ORM\OneToOne(targetEntity="Anh\ContentBundle\Entity\Paper", cascade={"persist", "remove"}, fetch="EAGER")
      * @ORM\JoinColumn(name="childId", referencedColumnName="id", onDelete="CASCADE")
      * TieAssert\SectionIsConfigured
      */

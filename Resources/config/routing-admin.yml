@@ -1,38 +1,124 @@
 anh_tied_content_admin:
     path: /
-    defaults: { _controller: AnhTiedContentBundle:Admin:index }
+    defaults:
+        _controller: anh_tied_content.tie.controller:dummyAction
+        _anh_resource:
+            view: AnhTiedContentBundle:Admin:index.html.twig
+            viewVars:
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                # sections: container.getParameter('anh_content.sections')
 
 anh_tied_content_admin_child_list:
-    pattern: /list-{parent}
-    defaults: { _controller: AnhTiedContentBundle:Admin:listChild }
+    pattern: /{section}-children-{parent}
+    defaults:
+        _controller: anh_tied_content.tie.controller:listAction
+        _anh_resource:
+            view: AnhTiedContentBundle:Admin:listChildren.html.twig
+            viewVars:
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
+                parent: request.attributes.get('parent')
+                section: request.attributes.get('section')
+            criteria:
+                parent: request.attributes.get('parent')
     requirements:
         parent: "\d+"
 
 anh_tied_content_admin_child_add:
-    pattern: /add-{parent}
-    defaults: { _controller: AnhTiedContentBundle:Admin:addChild }
+    pattern: /{section}-add-{id}
+    defaults:
+        _controller: anh_tied_content.tie.controller:createChildAction
+        _anh_resource:
+            form: anh_tied_content_form_type_tie
+            form_options:
+                section: request.attributes.get('section')
+            view: AnhTiedContentBundle:Admin:addChild.html.twig
+            viewVars:
+                section: request.attributes.get('section')
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
+            redirect: referer
     requirements:
+        section: "[a-z\d]+"
         parent: "\d+"
 
-anh_tied_content_admin_edit:
-    pattern: /edit-{tie}
-    defaults: { _controller: AnhTiedContentBundle:Admin:editTie }
+anh_tied_content_admin_child_edit:
+    pattern: /{section}-edit-{parent}-{id}
+    defaults:
+        _controller: anh_tied_content.tie.controller:updateChildAction
+        _anh_resource:
+            form: anh_tied_content_form_type_tie
+            form_options:
+                section: request.attributes.get('section')
+            redirect: referer
+            view: AnhTiedContentBundle:Admin:editChild.html.twig
+            viewVars:
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
+                section: request.attributes.get('section')
     requirements:
-        tie: "\d+"
+        section: "[a-z\d]+"
+        parent: "\d+"
+        id: "\d+"
+
+anh_tied_content_admin_parent_edit:
+    pattern: /{section}-edit-{id}
+    defaults:
+        _controller: anh_tied_content.tie.controller:updateAction
+        _anh_resource:
+            form: anh_tied_content_form_type_tie
+            form_options:
+                section: request.attributes.get('section')
+            redirect: referer
+            view: AnhTiedContentBundle:Admin:editParent.html.twig
+            viewVars:
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
+                section: request.attributes.get('section')
+    requirements:
+        section: "[a-z\d]+"
+        id: "\d+"
 
 anh_tied_content_admin_parent_list:
     pattern: /{section}-list-{page}
-    defaults: { _controller: AnhTiedContentBundle:Admin:listParents, page: 1 }
+    defaults:
+        page: 1
+        _controller: anh_tied_content.tie.controller:listAction
+        _anh_resource:
+            page: request.attributes.get('page')
+            view: AnhTiedContentBundle:Admin:listParents.html.twig
+            viewVars:
+                section: request.attributes.get('section')
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
+            criteria:
+                '%parent': { 'is null': ~ }
+                'child.section': 'request.attributes.get("section")'
     requirements:
         section: "[a-z\d]+"
         page: "\d+"
 
 anh_tied_content_admin_parent_add:
     pattern: /{section}-add
-    defaults: { _controller: AnhTiedContentBundle:Admin:addParent }
+    defaults:
+        _controller: anh_tied_content.tie.controller:createAction
+        _anh_resource:
+            form: anh_tied_content_form_type_tie
+            form_options:
+                section: request.attributes.get('section')
+            redirect: referer
+            view: AnhTiedContentBundle:Admin:addParent.html.twig
+            viewVars:
+                section: request.attributes.get('section')
+                tied_sections: container.getParameter('anh_tied_content.sections')
+                sections: container.getParameter('anh_content.sections')
     requirements:
         section: "[a-z\d]+"
 
 anh_tied_content_admin_tie_delete:
     pattern: /delete
-    defaults: { _controller: AnhTiedContentBundle:Admin:delete }
+    methods: [ 'POST' ]
+    defaults:
+        _controller: anh_tied_content.tie.controller:deleteAction
+        _anh_resource:
+            redirect: referer

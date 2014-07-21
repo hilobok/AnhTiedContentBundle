@@ -4,30 +4,13 @@ namespace Anh\TiedContentBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Anh\ContentBundle\Entity\Paper;
 use Anh\TiedContentBundle\Entity\PaperTie;
-use Anh\TiedContentBundle\Entity\PaperTieManager;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-class TieListener implements EventSubscriber
+class TieListener extends ContainerAware implements EventSubscriber
 {
-    /**
-     * PaperTie manager
-     *
-     * @var PaperTieManager
-     */
-    private $tieManager;
-
-    /**
-     * Constructor
-     *
-     * @param PaperTieManager $tieManager
-     */
-    public function __construct($container)
-    {
-        $this->container = $container;
-    }
+    protected $container;
 
     /**
      * {@inheritdoc}
@@ -43,23 +26,18 @@ class TieListener implements EventSubscriber
     {
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Paper) {
+        if (!$entity instanceof PaperTie || $entity->getParent() !== null) {
             return;
         }
 
-        $tieManager = $this->container->get('anh_tied_content.manager.tie');
+        $repository = $this->container->get('anh_tied_content.tie.repository');
+        $children = $repository->fetch(array(
+            'parent' => $entity->getChild()
+        ));
 
-        // delete children
-        $ties = $tieManager->findChildren($entity);
-        foreach ($ties as $tie) {
-            $tieManager->delete($tie->getChild(), false);
-            $tieManager->delete($tie, false);
-        }
-
-        // delete tie
-        $tie = $tieManager->getTie($entity);
-        if ($tie) {
-            $tieManager->delete($tie, false);
+        if ($children) {
+            $manager = $this->container->get('anh_tied_content.tie.manager');
+            $manager->delete($children, false);
         }
     }
 }

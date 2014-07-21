@@ -11,7 +11,7 @@
     ],
 
     "require": {
-        "anh/content-bundle": "~1.1"
+        "anh/content-bundle": "~2.0"
     },
 
     "minimum-stability": "stable",
@@ -26,7 +26,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

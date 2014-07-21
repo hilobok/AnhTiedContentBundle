@@ -1,24 +1,22 @@
+{% set paper = tie.child %}
+
 <article class="block-parent">
     <header>
         <h2>
-            <a href="{{ contentUrl(tie) }}">{{ tie.child.title }}</a>
+            <a href="{{ contentUrl(tie) }}">{{ paper.title }}</a>
         </h2>
         <div>
-            {% set config = contentSections(section) %}
+            {{ paper.publishedSince|date }}
 
-            {% if config['category'] %}
-                <a href="{{ contentUrl(tie.child.category) }}">{{ tie.child.category.title }}</a>
-            {% endif %}
-
-            {% if config['publishedSince'] %}
-                {{ tie.child.publishedSince|date }}
+            {% if paper.category %}
+                &middot; <a href="{{ contentUrl(paper.category) }}">{{ paper.category.title }}</a>
             {% endif %}
         </div>
     </header>
 
-    {% if config['preview'] %}
+    {% if paper.preview %}
         <div class="preview">
-            {{ tie.child.preview|raw }}
+            {{ paper.preview|raw }}
         </div>
     {% endif %}
 </article>

@@ -1,85 +1,77 @@
 {% extends "AnhTiedContentBundle:Admin:layout.html.twig" %}
 
-{% import 'AnhPagerBundle::macro.html.twig' as pagination %}
 {% import _self as taggable %}
 
 {% block title 'AnhTiedContentBundle admin area' %}
 
 {% block content %}
-    {% set sections = contentSections() %}
-
-    <h2>{{ pager.getTotalRowsCount() }} parents in {{ section }}</h2>
+    <h2>{{ resources.getTotalCount() }} parents in {{ section }}</h2>
 
     <form action="{{ url('anh_tied_content_admin_tie_delete') }}" method="post" id="fPapers">
-        <input type="hidden" name="_redirect" value="{{ url('anh_tied_content_admin_parent_list', { 'section': section }) }}" />
-
         <div class="button_row">
             <a href="{{ url('anh_tied_content_admin_parent_add', { 'section': section }) }}">Create new</a>
 
-            {% if not pager.isEmpty() %}
+            {% if not resources.isEmpty() %}
                 <button class="danger" type="submit">Delete</button>
             {% endif %}
         </div>
 
-        {% if not pager.isEmpty() %}
-            {% for tie in pager.getResult() %}
-                {% set paper = tie.getChild() %}
-                {% set section = paper.getSection() %}
+        {% if not resources.isEmpty() %}
+            {% for tie in resources %}
+                {% set paper = tie.child %}
 
                 <div class="list_row">
                     <div class="list_row_flags">
-                        <input type="checkbox" name="id[]" value="{{ paper.getId() }}" />
+                        <input type="checkbox" name="id[]" value="{{ tie.id }}" />
 
-                        <a href="{{ url('anh_tied_content_admin_child_list', { 'parent': tie.getChild().getId() }) }}"><i class="fa fa-book"></i></a>
+                        <a href="{{ url('anh_tied_content_admin_child_list', { 'section': section, 'parent': paper.id }) }}"><i class="fa fa-book"></i></a>
 
-                        <a href="{{ contentUrl(paper) }}"><i class="fa fa-eye"></i></a>
+                        <a href="{{ contentUrl(tie) }}"><i class="fa fa-eye"></i></a>
 
-                        {% if paper.getIsDraft() %}
+                        {% if paper.isDraft %}
                             <i class="fa fa-pencil is-draft"></i>
                         {% endif %}
 
-                        {% if paper.getImage() %}
+                        {% if paper.image %}
                             <i class="fa fa-picture-o has-image"></i>
                         {% endif %}
                     </div>
 
                     <div class="list_row_content">
-                        <a href="{{ url('anh_tied_content_admin_edit', { 'tie': tie.getId() }) }}">{{ tie.getChild().getTitle() }}</a>
+                        <a href="{{ url('anh_tied_content_admin_parent_edit', { 'section': section, 'id': tie.id }) }}">{{ paper.title }}</a>
                         <div>
-                            {% if sections[section].category and paper.getCategory() %}
-                                <span>Category:</span> {{ paper.getCategory().getTitle() }}
+                            {% if sections[section].category and paper.category %}
+                                <span>Category:</span> {{ paper.category.title }}
                             {% endif %}
 
                             {% if sections[section].publishedSince %}
-                                <span>Published since:</span> {{ paper.getPublishedSince()|date }}
+                                <span>Published since:</span> {{ paper.publishedSince|date }}
                             {% endif %}
                         </div>
 
-                        {% if sections[section].preview %}
-                            <div class="preview">{{ paper.getPreview()|striptags[:100] ~ '...' }}</div>
-                        {% endif %}
+                        <div class="preview">{{ paper.preview|striptags[:100] ~ '...' }}</div>
 
-                        {% if sections[section].tags and not paper.getTags().isEmpty() %}
-                            <div class="tags">{{ taggable.listTags(paper.getTags()) }}</div>
+                        {% if sections[section].tags and not paper.tags.isEmpty() %}
+                            <div class="tags">{{ taggable.listTags(paper.tags) }}</div>
                         {% endif %}
 
                         <div class="created_updated">
-                            Created at: {{ paper.getCreatedAt()|date }}
+                            Created at: {{ paper.createdAt|date }}
                             &middot;
-                            Updated at: {{ paper.getUpdatedAt()|date }}
+                            Updated at: {{ paper.updatedAt|date }}
                         </div>
                     </div>
                 </div>
             {% endfor %}
 
-            {{ pagination.build(pager) }}
+            {{ anh_paginator_view(resources) }}
         {% endif %}
     </form>
 {% endblock %}
 
 {% block stylesheets %}
     {% stylesheets
-        '@anh_pager_css'
+        '@anh_paginator_css'
         '@AnhContentBundle/Resources/public/style.css'
     %}<link rel="stylesheet" href="{{ asset_url }}" />{% endstylesheets %}
 {% endblock %}
@@ -87,7 +79,6 @@
 {% block javascripts %}
     {% javascripts
         '@jquery_js'
-        '@anh_pager_js'
     %}<script src="{{ asset_url }}"></script>{% endjavascripts %}
 
     <script><!--
@@ -115,7 +106,7 @@
         {% for tag in tags %}
             <li>
                 {% if url %}
-                    <a href="{{ url|replace({ '%name%': tag.getName() }) }}">{{ tag.getName() }}</a>{% if not loop.last %}, {% endif %}
+                    <a href="{{ url|replace({ '%name%': tag.name }) }}">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}
                 {% else %}
                     {{ tag.getName() }}{% if not loop.last %}, {% endif %}
                 {% endif %}

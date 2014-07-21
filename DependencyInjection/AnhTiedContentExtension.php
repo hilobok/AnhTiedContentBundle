@@ -77,5 +77,21 @@ class AnhTiedContentExtension extends Extension implements PrependExtensionInter
                 'AnhTiedContentBundle'
             )
         ));
-    }
+
+         $container->prependExtensionConfig('anh_doctrine_resource', array(
+            'resources' => array(
+                'anh_tied_content.tie' => array(
+                    'model' => '%anh_tied_content.entity.tie.class%',
+                    'driver' => 'orm',
+                    'controller' => 'Anh\TiedContentBundle\Controller\TieController',
+                    'rules' => array(
+                        'isPublished' => array(
+                            'child.isDraft' => false,
+                            'child.publishedSince <= current_timestamp()',
+                        ),
+                    ),
+                ),
+            )
+        ));
+   }
 }

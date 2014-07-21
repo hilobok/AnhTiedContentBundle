@@ -9,11 +9,14 @@ use Anh\TiedContentBundle\Entity\PaperTie;
 
 class UrlGenerator implements EventSubscriberInterface
 {
-    protected $tieManager;
+    protected $repository;
 
-    public function __construct($tieManager)
+    protected $sections;
+
+    public function __construct($repository, $sections)
     {
-        $this->tieManager = $tieManager;
+        $this->repository = $repository;
+        $this->sections = $sections;
     }
 
     /**
@@ -31,10 +34,12 @@ class UrlGenerator implements EventSubscriberInterface
         $data = $event->getData();
 
         if ($data instanceof Paper) {
-            $data = $this->tieManager->getTie($data);
+            if (in_array($data->getSection(), $this->sections, true)) {
+                $data = $this->repository->findTie($data);
+            }
         }
 
-        if (!($data instanceof PaperTie)) {
+        if (!$data instanceof PaperTie) {
             return;
         }
 

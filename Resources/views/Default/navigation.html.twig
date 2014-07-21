@@ -5,7 +5,7 @@
         <span class="icon-prev disabled">&larr; prev</span>
     {% endif %}
 
-    <a class="icon-toc" href="{{ contentUrl(parent) }}">content</a>
+    <a class="icon-toc" href="{{ contentUrl(navigation.current.parent) }}">content</a>
 
     {% if navigation.next %}
         <a class="icon-next" href="{{ contentUrl(navigation.next) }}">next &rarr;</a>

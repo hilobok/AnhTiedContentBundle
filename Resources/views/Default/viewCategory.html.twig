@@ -5,7 +5,7 @@
 {% block content %}
     <h1>{{ category.title }}</h1>
 
-    {% for tie in parents %}
+    {% for tie in resources %}
         {% include 'AnhTiedContentBundle:Default:_blockParent.html.twig' %}
     {% endfor %}
 {% endblock %}
