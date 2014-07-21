@@ -17,8 +17,8 @@
     "minimum-stability": "stable",
 
     "autoload": {
-        "psr-0": {
-            "Anh\\TiedContentBundle": ""
+        "psr-4": {
+            "Anh\\TiedContentBundle\\": ""
         }
     },
 
