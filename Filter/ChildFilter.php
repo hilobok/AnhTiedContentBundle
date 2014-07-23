@@ -9,8 +9,8 @@ class ChildFilter extends AbstractFilter
     public function getSortFields(array $parameters = array())
     {
         return array(
-            'child.updatedAt' => 'updatedAt',
             'child.createdAt' => 'createdAt',
+            'child.updatedAt' => 'updatedAt',
             'child.title' => 'title',
         );
     }
