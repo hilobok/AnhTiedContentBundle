@@ -12,6 +12,29 @@ class TieController extends ResourceController
 {
     use InjectOptionsTrait;
 
+    public function createAction(Request $request)
+    {
+        return $this->handleResponse(parent::createAction($request));
+    }
+
+    public function updateAction(Request $request)
+    {
+        return $this->handleResponse(parent::updateAction($request));
+    }
+
+    protected function handleResponse($response)
+    {
+        if (isset($response['redirect'])) {
+            if ($response['data']['resource_form']->get('child')->get('save_and_preview')->isClicked()) {
+                $response['redirect'] = $this->container->get('anh_content.url_generator')->resolveAndGenerate(
+                    $response['data']['resource']
+                );
+            }
+        }
+
+        return $response;
+    }
+
     public function createChildAction(Request $request, Paper $parent)
     {
         $this->injectOptions($request, array(
@@ -20,18 +43,15 @@ class TieController extends ResourceController
             ),
         ));
 
-        $result = $this->createAction($request);
+        $response = $this->createAction($request);
+        $response['data']['parent'] = $parent;
 
-        if (is_array($result)) {
-            $result['data']['parent'] = $parent;
-        }
-
-        return $result;
+        return $this->handleResponse($response);
     }
 
     public function updateChildAction(Request $request)
     {
-        return parent::updateAction($request);
+        return $this->updateAction($request);
     }
 
     public function listChildrenAction(Request $request, Paper $parent)
