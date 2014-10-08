@@ -32,4 +32,12 @@ class ChildFilter extends AbstractFilter
             ),
         );
     }
+
+    public function getDefaults(array $parameters = array())
+    {
+        return array(
+            'field' => 'id',
+            'order' => 'asc',
+        );
+    }
 }
