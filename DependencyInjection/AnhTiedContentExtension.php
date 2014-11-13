@@ -54,6 +54,7 @@ class AnhTiedContentExtension extends Extension implements PrependExtensionInter
 
         foreach ($config['sections'] as $section) {
             $prepend['sections'][$section] = array(
+                'hidden' => true,
                 'routes' => array(
                     'tied_parent' => sprintf('anh_tied_content_%s_parent', $section),
                     'tied_child' => sprintf('anh_tied_content_%s_child', $section),
