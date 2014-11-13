@@ -6,7 +6,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AnhTiedContentBundle extends Bundle
 {
-    const VERSION = 'v2.1.1';
+    const VERSION = 'v2.1.2';
     const TITLE = 'AnhTiedContentBundle';
     const DESCRIPTION = 'Bundle for tied content management';
 
